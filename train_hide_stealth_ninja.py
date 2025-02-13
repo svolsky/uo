@@ -1,8 +1,8 @@
 # MUST HAVE REQUIRED NINJA TO ATTEMPT SHADOWJUMP
 # best to start in an area between north south trees with visible tiles between
 
-Y_1 = 1274
-Y_2 = 1265
+Y_1 = 1334
+Y_2 = 1297
 
 
 def get_direction():
