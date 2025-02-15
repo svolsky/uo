@@ -1,7 +1,8 @@
 # remove traps
 # BACKPACK_SERIAL = 
 
-WOODEN_BOX_ID = 0x0E7D
+WOODEN_BOX_IDS = [0x0E7D, 0x09AA]
+
 KEYRING_ID    = 0x176B
 
 DOG_ID = 0x00D9
@@ -24,7 +25,7 @@ def heal_as_dog():
     while not im_a_dog():
         Spells.CastNinjitsu('Animal Form')
         Gumps.WaitForGump(0x2336, 3000)
-        Gumps.SendAction(0x2336, 102) # dog
+        Gumps.SendAction(0x2336, 106) # dog
         Misc.Pause(3000)
 
     print('waiting for full healthbar...')
@@ -47,12 +48,15 @@ def all_wooden_boxes(backpack):
     Misc.Pause(USE_PAUSE)
     # ищем wooden box и keyring в сумке
     # все должно лежать в backpack-ах, которые надо открыть
-    boxes = Items.FindAllByID(WOODEN_BOX_ID, -1, backpack.Serial, 0)
+    all_boxes = []
+    for WOODEN_BOX_ID in WOODEN_BOX_IDS:
+        boxes = Items.FindAllByID(WOODEN_BOX_ID, -1, backpack.Serial, 0)
+        all_boxes.extend(boxes)
     
     # keyring
     keyring = Items.FindByID(KEYRING_ID,-1,backpack.Serial,0)
     print(f'keyring: {keyring}')
-    return boxes, keyring
+    return all_boxes, keyring
 
 
 def relock_box(box, key):
@@ -61,10 +65,12 @@ def relock_box(box, key):
     Misc.Pause(USE_PAUSE)
 
     if Journal.Search('You disable the trap'):
+        print('Enabling trap again')
         Items.UseItem(key, box)
         Misc.Pause(USE_PAUSE)
         return True
     elif Journal.Search('You re-enable the trap'):
+        print('enabling trap again')
         return True
     else:
         print(f"box don't has trap")

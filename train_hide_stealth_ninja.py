@@ -28,7 +28,7 @@ while not Player.IsGhost:
     if not Player.Visible and Player.Mana > 15: 
         Spells.CastNinjitsu("Shadowjump")
         Target.WaitForTarget(3000, False)
-        Target.TargetExecuteRelative(Player.Serial,-1)
+        Target.TargetExecuteRelative(Player.Serial,1)
         Misc.Pause(3000)
   
     Misc.Pause(400)
